@@ -39,6 +39,7 @@ class Home extends Component {
   }
   componentWillUnmount(){
     this.source.cancel();
+    console.log("home unmount")
     
   }
   handleUsername(e) {
