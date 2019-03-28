@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 import { token$ } from "./store";
 import TodoForm from "./todoform"
 
-class Home extends Component {
+class Todo extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -92,4 +92,4 @@ class Home extends Component {
     }
 }
 
-export default Home;
+export default Todo;
