@@ -1,7 +1,36 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom"
-
+import axios from "axios";
 class Home extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      username:"",
+      password:"",
+    }
+    this.handleUsername = this.handleUsername.bind(this);
+    this.handlePassword = this.handlePassword.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+  }
+
+  handleLogin(e){
+    e.preventDefault();
+    let API_ROOT = "http://ec2-13-53-32-89.eu-north-1.compute.amazonaws.com:3000";
+    axios.post(API_ROOT + "/auth", { email:this.state.username, password:this.state.password })
+    .then(res => console.log (res))
+  }
+  handleUsername(e){
+    this.setState({
+      username:e.target.value
+    })
+  }
+  handlePassword(e){
+    this.setState({
+      password:e.target.value
+    })
+  }
+
+
   render() {
     return (
       <>
@@ -10,26 +39,33 @@ class Home extends Component {
         </div>
         <div className="container logincontainer">
           <div className="row center">
-            <i class="material-icons accountman">account_circle</i>
+            <i className="material-icons accountman">account_circle</i>
           </div>
           <div className="row">
-            <form className="col s12">
+            <form className="col s12" onSubmit = {this.handleLogin}>
               <div className="row">
                 <div className="input-field col s8 offset-m2">
                   <input
+                    onChange={this.handleUsername}
+                    value = {this.state.username}
                     id="email"
                     type="email"
                     className="validate"
                     autoComplete="off"
-                    autoFocus="true"
+                    autoFocus={true}
                   />
                   <label forhtml="email">Username</label>
                 </div>
               </div>
               <div className="row">
                 <div className="input-field col s8 offset-m2">
-                  <input id="password" type="password" className="validate" />
-                  <label for="password">Password</label>
+                  <input 
+                  onChange={this.handlePassword}
+                  value = {this.state.password}
+                  id="password" 
+                  type="password" 
+                  className="validate" />
+                  <label htmlFor="password">Password</label>
                 </div>
               </div>
               <div className="row">

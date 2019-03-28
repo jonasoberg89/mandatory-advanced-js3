@@ -1,7 +1,55 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom"
-
+import axios from "axios";
 class Register extends Component {
+    constructor(props){
+        super(props)
+        this.state={
+            username:"",
+            password:"",
+            verifypass:"",
+            error: false,
+        }
+        this.handleUsername = this.handleUsername.bind(this);
+        this.handlePassword = this.handlePassword.bind(this);
+        this.handleVerify = this.handleVerify.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    handleSubmit(e){
+        e.preventDefault();
+        if(this.state.password !== this.state.verifypass)return;
+        let API_ROOT = "http://ec2-13-53-32-89.eu-north-1.compute.amazonaws.com:3000";
+        axios.post(API_ROOT + "/register", { email:this.state.username, password:this.state.password })
+        .then (res=>{
+            this.setState({
+                error:false,
+            })
+            console.log (res);
+        })
+        .catch(err =>{
+            this.setState({
+                error:true
+            })
+            console.log (err);
+        })
+        // Sedan ska man pushas till todopage.
+    }
+    handleUsername(e){
+        this.setState({
+            username:e.target.value
+        })
+    }
+    handlePassword(e){
+        this.setState({
+            password:e.target.value
+        })
+    }
+    handleVerify(e){
+        this.setState({
+            verifypass:e.target.value
+        })
+    }
+
     render() {
         return (
             <>
@@ -10,32 +58,51 @@ class Register extends Component {
                 </div>
                 <div className="container logincontainer">
                     <div className="row center">
-                        <i class="material-icons accountman">face</i>
+                        <i className="material-icons accountman">face</i>
                     </div>
                     <div className="row">
-                        <form className="col s12">
+                        <form className="col s12" onSubmit = {this.handleSubmit}>
                             <div className="row">
                                 <div className="input-field col s8 offset-m2">
                                     <input
+                                        value = {this.state.username}
+                                        onChange={this.handleUsername}
                                         id="email"
                                         type="email"
                                         className="validate"
                                         autoComplete="off"
-                                        autoFocus="true"
+                                        autoFocus={true}
                                     />
-                                    <label forhtml="email">Chose Username</label>
+                                    <label htmlFor="email">Chose Username</label>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="input-field col s8 offset-m2">
-                                    <input id="password" type="password" className="validate" />
-                                    <label for="password">Chose Password</label>
+                                    <input 
+                                        value = {this.state.password}
+                                        onChange={this.handlePassword}
+                                        id="password" 
+                                        type="password" 
+                                        className="validate" 
+                                    />
+                                    <label htmlFor="password">Chose Password</label>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="input-field col s8 offset-m2">
-                                    <input id="password" type="password" className="validate" />
-                                    <label for="password">Verify Password</label>
+                                    <input 
+                                        value = {this.state.verifypass}
+                                        onChange={this.handleVerify}
+                                        id="passwordConfirm" 
+                                        type="password" 
+                                        className="validate" 
+                                    />
+                                    <label 
+                                        id="lblPasswordConfirm" 
+                                        htmlFor="passwordConfirm" 
+                                        data-error="Password not match">
+                                        Verify Password
+                                    </label>
                                 </div>
                             </div>
                             <div className="row">
