@@ -4,7 +4,7 @@ import './App.css';
 import Home from "./Components/home"
 import Navbar from "./Components/navbar"
 import Register from "./Components/register"
-import { Link } from "react-router-dom"
+import Todo from "./Components/todo"
 
 class App extends Component {
   render() {
@@ -13,7 +13,8 @@ class App extends Component {
         <div className="App">
           <Navbar />
           <Route exact path="/" component={Home} />
-          <Route path="/Register" component={Register} />
+          <Route path="/register" component={Register} />
+          <Route path="/todo" component={Todo} />
         </div>
       </BrowserRouter>
 

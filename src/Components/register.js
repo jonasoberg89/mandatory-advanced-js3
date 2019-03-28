@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom"
 import axios from "axios";
+import {Helmet} from "react-helmet";
 class Register extends Component {
     constructor(props){
         super(props)
@@ -53,6 +53,9 @@ class Register extends Component {
     render() {
         return (
             <>
+            <Helmet>
+          <title>Home</title>
+        </Helmet> 
                 <div className="row center">
                     <h4>Register</h4>
                 </div>
