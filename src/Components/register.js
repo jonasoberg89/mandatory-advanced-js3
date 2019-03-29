@@ -61,6 +61,11 @@ class Register extends Component {
                     <h4>Register</h4>
                 </div>
                 <div className="container logincontainer">
+                    <div className="row left arrowback">
+                    <i onClick={(()=>{
+                        this.props.history.push("/")
+                        })} className="material-icons">arrow_back</i>
+                    </div>
                     <div className="row center">
                         <i className="material-icons accountman">face</i>
                     </div>

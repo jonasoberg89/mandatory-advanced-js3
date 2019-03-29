@@ -13,7 +13,7 @@
   margin-top: 20px;
 }
 .input-register{
-  margin-left: 157px;
+  margin-left: 143px;
 }
 
 .todocontainer{
@@ -35,7 +35,12 @@
   cursor: pointer;
   color: rgb(182, 32, 32);
 }
-
+.arrowback{
+  cursor: pointer;
+  position: absolute;
+  margin-top: 25px;
+  margin-left: 25px;
+}
 .sidebar{
   width: 258px;
   height: 400px;

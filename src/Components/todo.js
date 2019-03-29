@@ -85,9 +85,7 @@ class Todo extends Component {
     componentWillUnmount(){
         this.source.cancel();
         console.log("todo unmount")
-        
       }
-
     render() {
         let todos = this.state.data;
         const todoList = todos.length ? (
