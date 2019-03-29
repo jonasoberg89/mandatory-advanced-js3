@@ -29,7 +29,7 @@ class Register extends Component {
             })
             .catch(err => {
                 this.setState({
-                    error: "Invalid Username or password..."
+                    error: "Invalid username or password..."
                 })
                 console.log(err);
             })
@@ -55,7 +55,7 @@ class Register extends Component {
         return (
             <>
                 <Helmet>
-                    <title>Home</title>
+                    <title>Register</title>
                 </Helmet>
                 <div className="row center">
                     <h4>Register</h4>
@@ -105,11 +105,11 @@ class Register extends Component {
                                         id="lblPasswordConfirm"
                                         htmlFor="passwordConfirm"
                                         data-error="Password not match">
-                                        Verify Password
+                                        Repeat Password
                                     </label>
                                 </div>
                             </div>
-                            <div className="row">
+                            <div className="row center">
                                 <span>{this.state.error}</span>
                                 <div className="input-field col s4 offset-m4">
                                     <button className="btn waves-effect light-blue darken-4" type="submit" name="action">Submit

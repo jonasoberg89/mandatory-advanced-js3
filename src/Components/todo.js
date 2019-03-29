@@ -16,7 +16,7 @@ class Todo extends Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.deleteTodo = this.deleteTodo.bind(this);
         this.getData = this.getData.bind(this);
-        this.handleLogOut = this.handleLogOut.bind(this)
+        this.handleLogOut = this.handleLogOut.bind(this);
     }
     componentDidMount() {
         this.getData();
@@ -63,7 +63,6 @@ class Todo extends Component {
     }
 
     deleteTodo(id) {
-        console.log(id);
         let API_ROOT = "http://ec2-13-53-32-89.eu-north-1.compute.amazonaws.com:3000";
         axios.delete(API_ROOT + "/todos/"+id,{
             headers: {
@@ -73,7 +72,10 @@ class Todo extends Component {
         }).then(res =>{
             console.log(res)
             this.getData()
-        }) 
+        }).catch(err =>{
+            console.log(err);
+            this.getData();
+        })
     }
     handleLogOut(e){
         e.preventDefault();
@@ -82,7 +84,7 @@ class Todo extends Component {
     }
     componentWillUnmount(){
         this.source.cancel();
-        console.log("home unmount")
+        console.log("todo unmount")
         
       }
 

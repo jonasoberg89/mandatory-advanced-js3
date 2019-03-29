@@ -74,7 +74,6 @@ class Home extends Component {
                     id="email"
                     type="email"
                     className="validate"
-                    autoComplete="off"
                     autoFocus={true}
                   />
                   <label forhtml="email">Username</label>
@@ -93,8 +92,7 @@ class Home extends Component {
               </div>
               <div className="row">
                 <div className="input-field col s4 offset-m4">
-                  <button className="btn waves-effect light-blue darken-4" type="submit" name="action">Submit
-                    <i className="material-icons right">send</i>
+                  <button className="btn waves-effect light-blue darken-4" type="submit" name="action">Login
                   </button>
                 </div>
               </div>
