@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from "axios";
 import { Helmet } from "react-helmet";
 import { token$ } from "./store";
+import {updateToken} from "./store";
 import TodoForm from "./todoform"
 
 class Todo extends Component {
@@ -14,12 +15,20 @@ class Todo extends Component {
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.deleteTodo = this.deleteTodo.bind(this);
+        this.getData = this.getData.bind(this);
+        this.handleLogOut = this.handleLogOut.bind(this)
     }
     componentDidMount() {
+        this.getData();
+    }
+
+    getData(){
+        this.source = axios.CancelToken.source();
         let API_ROOT = "http://ec2-13-53-32-89.eu-north-1.compute.amazonaws.com:3000";
         axios.get(API_ROOT + "/todos", {
             headers: {
                 Authorization: "Bearer " + token$.value,
+                cancelToken: this.source.token
             },
         }).then(res => {
             console.log(res);
@@ -37,10 +46,16 @@ class Todo extends Component {
         axios.post(API_ROOT + "/todos", { content:this.state.content },{
             headers: {
                 Authorization: "Bearer " + token$.value,
+                cancelToken: this.source.token
             },
-        }).then(res =>console.log(res))   
+        }).then(res =>{
+            console.log(res)
+            this.getData()
+            this.setState({
+                content:"",
+            })
+        })   
     }
-     
     onChange(e){
         this.setState({
             content:e.target.value
@@ -49,13 +64,27 @@ class Todo extends Component {
 
     deleteTodo(id) {
         console.log(id);
-        // const todos = this.state.data.filter(todo => {
-        //     return todo.id !== id
-        // })
-        // this.setState({
-        //     data: todos
-        // })
+        let API_ROOT = "http://ec2-13-53-32-89.eu-north-1.compute.amazonaws.com:3000";
+        axios.delete(API_ROOT + "/todos/"+id,{
+            headers: {
+                Authorization: "Bearer " + token$.value,
+                cancelToken: this.source.token
+            },
+        }).then(res =>{
+            console.log(res)
+            this.getData()
+        }) 
     }
+    handleLogOut(e){
+        e.preventDefault();
+        updateToken(null);
+        this.props.history.push("/");
+    }
+    componentWillUnmount(){
+        this.source.cancel();
+        console.log("home unmount")
+        
+      }
 
     render() {
         let todos = this.state.data;
@@ -63,7 +92,11 @@ class Todo extends Component {
             todos.map(todo => {
                 return (
                     <div className="collection-item" key={todo.id}>
-                        <span onClick={()=>{this.deleteTodo(todo.id)}}>{todo.content}</span>
+                        <span className="todo-text" >{todo.content}</span>
+                        <div className="right" >
+                        <i onClick={()=>{this.deleteTodo(todo.id)}} className="material-icons deleteTodo">remove_circle</i>
+                        </div>
+            
                     </div>  
                 )
             })
@@ -75,7 +108,19 @@ class Todo extends Component {
                 <Helmet>
                     <title>Todo</title>
                 </Helmet>
-                <div className="container">
+                <div className="container todocontainer">
+                    <div className="sidebar center" >
+                        <div className="row">
+                        <span className="nameLog">test@exempel.com</span>
+                        </div>
+                        <div className="row">
+                        <button
+                            onClick={this.handleLogOut} 
+                            className="btn waves-effect light-blue darken-4 todo-button" 
+                            name="action">Log out
+                        </button> 
+                        </div>
+                    </div>
                     <div className="todos collection">
                         {todoList}
                     </div>
@@ -85,8 +130,6 @@ class Todo extends Component {
                         content ={this.state.content}
                     />
                 </div>
-
-
             </>
         );
     }

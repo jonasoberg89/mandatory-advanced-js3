@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class AddTodo extends Component {
     render() {
         return (    
-            <div className="row">
+            <div className="row todoform">
                 <form className="col s12" onSubmit={this.props.handleSubmit}>
                     <div className="input-field col s6 offset-m3">
                         <input 

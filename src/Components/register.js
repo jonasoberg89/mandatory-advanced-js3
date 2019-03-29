@@ -25,6 +25,7 @@ class Register extends Component {
                     error: "",
                 })
                 console.log(res);
+                this.props.history.push("/");
             })
             .catch(err => {
                 this.setState({

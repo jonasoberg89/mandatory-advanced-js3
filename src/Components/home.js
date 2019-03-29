@@ -16,10 +16,9 @@ class Home extends Component {
     this.handlePassword = this.handlePassword.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
   }
-
   handleLogin(e) {
     e.preventDefault();
-     this.source = axios.CancelToken.source();
+    this.source = axios.CancelToken.source();
     let API_ROOT = "http://ec2-13-53-32-89.eu-north-1.compute.amazonaws.com:3000";
     axios.post(API_ROOT + "/auth", { email: this.state.username, password: this.state.password },{
       headers:{cancelToken: this.source.token}
@@ -35,12 +34,12 @@ class Home extends Component {
         })
         console.log (err);
       })
-
   }
   componentWillUnmount(){
-    this.source.cancel();
-    console.log("home unmount")
-    
+    if(this.source){
+      this.source.cancel();
+      console.log("home unmount")
+    }
   }
   handleUsername(e) {
     this.setState({
@@ -52,8 +51,6 @@ class Home extends Component {
       password: e.target.value
     })
   }
-
-
   render() {
     return (
       <>
