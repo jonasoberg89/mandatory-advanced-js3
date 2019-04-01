@@ -86,12 +86,11 @@ class Todo extends Component {
     }
     handleLogOut(e) {
         e.preventDefault();
-        updateToken(null);
         this.props.history.push("/");
     }
     componentWillUnmount() {
+        updateToken(null);
         this.source.cancel();
-        console.log("todo unmount")
     }
     render() {
         let todos = this.state.data;
