@@ -32,7 +32,7 @@ class Home extends Component {
         this.setState({
           error:"Invalid username or password"
         })
-        console.log (err);
+        console.log ("vafan");
       })
   }
   componentWillUnmount(){
@@ -90,8 +90,9 @@ class Home extends Component {
                   <label htmlFor="password">Password</label>
                 </div>
               </div>
-              <div className="row">
-                <div className="input-field col s4 offset-m4">
+              <div className="row center">
+              <span>{this.state.error}</span>
+                <div className="input-field col s12">
                   <button className="btn waves-effect light-blue darken-4" type="submit" name="action">Login
                   </button>
                 </div>

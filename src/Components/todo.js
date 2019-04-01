@@ -2,15 +2,17 @@ import React, { Component } from 'react';
 import axios from "axios";
 import { Helmet } from "react-helmet";
 import { token$ } from "./store";
-import {updateToken} from "./store";
+import { updateToken } from "./store";
 import TodoForm from "./todoform"
+import jwt from "jsonwebtoken";
 
 class Todo extends Component {
     constructor(props) {
         super(props)
         this.state = {
             data: [],
-            content:"",
+            content: "",
+            username:"",
         }
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -20,9 +22,14 @@ class Todo extends Component {
     }
     componentDidMount() {
         this.getData();
+        const decoded = jwt.decode(token$.value);
+        console.log (decoded.email);
+        this.setState({
+            username:decoded.email
+        })
     }
 
-    getData(){
+    getData() {
         this.source = axios.CancelToken.source();
         let API_ROOT = "http://ec2-13-53-32-89.eu-north-1.compute.amazonaws.com:3000";
         axios.get(API_ROOT + "/todos", {
@@ -40,52 +47,52 @@ class Todo extends Component {
         })
     }
 
-    onSubmit(e){
+    onSubmit(e) {
         e.preventDefault()
         let API_ROOT = "http://ec2-13-53-32-89.eu-north-1.compute.amazonaws.com:3000";
-        axios.post(API_ROOT + "/todos", { content:this.state.content },{
+        axios.post(API_ROOT + "/todos", { content: this.state.content }, {
             headers: {
                 Authorization: "Bearer " + token$.value,
                 cancelToken: this.source.token
             },
-        }).then(res =>{
+        }).then(res => {
             console.log(res)
             this.getData()
             this.setState({
-                content:"",
+                content: "",
             })
-        })   
+        })
     }
-    onChange(e){
+    onChange(e) {
         this.setState({
-            content:e.target.value
+            content: e.target.value
         })
     }
 
     deleteTodo(id) {
         let API_ROOT = "http://ec2-13-53-32-89.eu-north-1.compute.amazonaws.com:3000";
-        axios.delete(API_ROOT + "/todos/"+id,{
+        axios.delete(API_ROOT + "/todos/" + id, {
             headers: {
                 Authorization: "Bearer " + token$.value,
                 cancelToken: this.source.token
             },
-        }).then(res =>{
+        }).then(res => {
             console.log(res)
             this.getData()
-        }).catch(err =>{
+        }).catch(err => {
             console.log(err);
             this.getData();
         })
     }
-    handleLogOut(e){
+    handleLogOut(e) {
         e.preventDefault();
         updateToken(null);
         this.props.history.push("/");
     }
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.source.cancel();
         console.log("todo unmount")
-      }
+    }
     render() {
         let todos = this.state.data;
         const todoList = todos.length ? (
@@ -94,10 +101,10 @@ class Todo extends Component {
                     <div className="collection-item" key={todo.id}>
                         <span className="todo-text" >{todo.content}</span>
                         <div className="right" >
-                        <i onClick={()=>{this.deleteTodo(todo.id)}} className="material-icons deleteTodo">remove_circle</i>
+                            <i onClick={() => { this.deleteTodo(todo.id) }} className="material-icons deleteTodo">remove_circle</i>
                         </div>
-            
-                    </div>  
+
+                    </div>
                 )
             })
         ) : (
@@ -108,26 +115,23 @@ class Todo extends Component {
                 <Helmet>
                     <title>Todo</title>
                 </Helmet>
-                <div className="container todocontainer">
-                    <div className="sidebar center" >
-                        <div className="row">
-                        <span className="nameLog">test@exempel.com</span>
-                        </div>
-                        <div className="row">
-                        <button
-                            onClick={this.handleLogOut} 
-                            className="btn waves-effect light-blue darken-4 todo-button" 
-                            name="action">Log out
-                        </button> 
-                        </div>
-                    </div>
-                    <div className="todos collection">
+                <div className="todocontainer row">
+                    <div className="todos collection col s6">
                         {todoList}
                     </div>
-                    <TodoForm 
-                        handleSubmit={this.onSubmit} 
+                    <div className="sidebar center col s6 " >
+                            <span className="nameLog">{this.state.username}</span>
+                            <button
+                                onClick={this.handleLogOut}
+                                className="btn waves-effect light-blue darken-4 todo-button"
+                                name="action">Log out
+                            </button>
+                   
+                    </div>
+                    <TodoForm
+                        handleSubmit={this.onSubmit}
                         handleOnChange={this.onChange}
-                        content ={this.state.content}
+                        content={this.state.content}
                     />
                 </div>
             </>

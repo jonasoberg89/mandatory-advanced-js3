@@ -13,20 +13,16 @@
   margin-top: 20px;
 }
 .input-register{
-  margin-left: 143px;
+  margin-left: 159px;
 }
-
 .todocontainer{
+  width: 90%;
   margin-top: 50px;
-  width:50%;
 }
 
 .todo-text{
   font-size: 16px;
   padding-left: 20px;
-}
-.todoform{
-  margin-top: 50px;
 }
 .todos{
   margin: 0 auto;
@@ -42,10 +38,8 @@
   margin-left: 25px;
 }
 .sidebar{
-  width: 258px;
-  height: 400px;
-  position: absolute;
-  margin-left: 974px;
+  display: flex;
+  justify-content: flex-end;
 }
 .nameLog{
   font-size: 18px;
@@ -55,5 +49,11 @@
   font-family: 'Anton', sans-serif;
 }
 .todo-button{
+  margin-top: 80px;
+}
+.nameLog{
+  position: absolute;
+}
+.formtodo{
   margin-top: 50px;
 }
