@@ -6,6 +6,8 @@ export function updateToken(newToken){
     
     if(newToken === null){
         window.localStorage.removeItem("token");
+        token$.next(newToken);
+        console.log("remove");
     }else{
         token$.next(newToken);
     }

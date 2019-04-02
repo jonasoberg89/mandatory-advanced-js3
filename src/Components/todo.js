@@ -20,13 +20,18 @@ class Todo extends Component {
         this.getData = this.getData.bind(this);
         this.handleLogOut = this.handleLogOut.bind(this);
     }
-    componentDidMount() {
+    componentWillMount() {
         this.getData();
-        const decoded = jwt.decode(token$.value);
-        console.log (decoded.email);
-        this.setState({
-            username:decoded.email
-        })
+        if(!!token$){
+			const decoded = jwt.decode(token$.value);
+			console.log (decoded.email);
+			this.setState({
+				username:decoded.email
+			})
+        } else {
+			this.props.history.push("/");
+		}
+       
     }
 
     getData() {
@@ -91,6 +96,7 @@ class Todo extends Component {
     componentWillUnmount() {
         updateToken(null);
         this.source.cancel();
+        console.log (token$);
     }
     render() {
         let todos = this.state.data;
