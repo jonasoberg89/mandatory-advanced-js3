@@ -10,5 +10,6 @@ export function updateToken(newToken){
         console.log("remove");
     }else{
         token$.next(newToken);
+        
     }
 }

@@ -32,13 +32,12 @@ class Home extends Component {
         this.setState({
           error:"Invalid username or password"
         })
-        console.log ("vafan");
+        console.error(err);
       })
   }
   componentWillUnmount(){
     if(this.source){
       this.source.cancel();
-      console.log("home unmount")
     }
   }
   handleUsername(e) {

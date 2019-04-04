@@ -33,7 +33,6 @@ class Register extends Component {
                 })
                 console.log(err);
             })
-        // Sedan ska man pushas till todopage.
     }
     handleUsername(e) {
         this.setState({

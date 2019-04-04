@@ -4,7 +4,6 @@ import { Helmet } from "react-helmet";
 import { token$ } from "./store";
 import { updateToken } from "./store";
 import TodoForm from "./todoform"
-import jwt from "jsonwebtoken";
 
 class Todo extends Component {
     constructor(props) {
@@ -12,7 +11,7 @@ class Todo extends Component {
         this.state = {
             data: [],
             content: "",
-            username:"",
+            username: "",
         }
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -21,19 +20,11 @@ class Todo extends Component {
         this.handleLogOut = this.handleLogOut.bind(this);
     }
     componentWillMount() {
+        if (!token$.value) {
+            this.props.history.push("/");
+        }
         this.getData();
-        if(!!token$.value){
-			const decoded = jwt.decode(token$.value);
-			console.log (decoded.email);
-			this.setState({
-				username:decoded.email
-			})
-        } else {
-			this.props.history.push("/");
-		}
-       
     }
-
     getData() {
         this.source = axios.CancelToken.source();
         let API_ROOT = "http://ec2-13-53-32-89.eu-north-1.compute.amazonaws.com:3000";
@@ -96,7 +87,7 @@ class Todo extends Component {
     componentWillUnmount() {
         updateToken(null);
         this.source.cancel();
-        console.log (token$);
+        console.log(token$);
     }
     render() {
         let todos = this.state.data;
@@ -113,25 +104,23 @@ class Todo extends Component {
                 )
             })
         ) : (
-                <p className="center">You have no todo's left =) </p>
-            )
+                <p className="center">You have no todos left =) </p>
+            );
         return (
             <>
                 <Helmet>
                     <title>Todo</title>
                 </Helmet>
+                <div className="row logoutdiv">
+                    <button
+                        onClick={this.handleLogOut}
+                        className="btn waves-effect light-blue darken-4 todo-button"
+                        name="action">Log out
+                </button>
+                </div>
                 <div className="todocontainer row">
-                    <div className="todos collection col s6">
+                    <div className="todos collection col s6 offset-m3">
                         {todoList}
-                    </div>
-                    <div className="sidebar center col s6 " >
-                            <span className="nameLog">{this.state.username}</span>
-                            <button
-                                onClick={this.handleLogOut}
-                                className="btn waves-effect light-blue darken-4 todo-button"
-                                name="action">Log out
-                            </button>
-                   
                     </div>
                     <TodoForm
                         handleSubmit={this.onSubmit}

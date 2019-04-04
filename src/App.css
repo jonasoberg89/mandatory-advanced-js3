@@ -37,23 +37,20 @@
   margin-top: 25px;
   margin-left: 25px;
 }
-.sidebar{
-  display: flex;
-  justify-content: flex-end;
-}
-.nameLog{
+
+.namelog{
   font-size: 18px;
-  font-weight: bold;
   font-family: 'Open Sans', sans-serif;
   font-family: 'Roboto', sans-serif;
   font-family: 'Anton', sans-serif;
 }
-.todo-button{
-  margin-top: 80px;
-}
-.nameLog{
-  position: absolute;
-}
+
 .formtodo{
   margin-top: 50px;
+}
+.logoutdiv{
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 50px;
+  margin-top: 20px;
 }
