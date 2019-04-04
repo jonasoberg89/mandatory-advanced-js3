@@ -10,7 +10,7 @@ class Navbar extends Component {
             username: "",
         }
     }
-
+    
     componentDidMount() {
         this.subscription = token$.subscribe((token) => {
             if (token) {

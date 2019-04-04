@@ -64,7 +64,6 @@ class Todo extends Component {
             content: e.target.value
         })
     }
-
     deleteTodo(id) {
         let API_ROOT = "http://ec2-13-53-32-89.eu-north-1.compute.amazonaws.com:3000";
         axios.delete(API_ROOT + "/todos/" + id, {
