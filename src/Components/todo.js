@@ -22,7 +22,7 @@ class Todo extends Component {
     }
     componentWillMount() {
         this.getData();
-        if(!!token$){
+        if(!!token$.value){
 			const decoded = jwt.decode(token$.value);
 			console.log (decoded.email);
 			this.setState({
